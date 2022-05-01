@@ -31,7 +31,7 @@ function dateSample(sampleActivity ) {
     return false
   }
   
-  return Math.floor(Math.log(15/Number(sampleActivity)))
+  return Math.floor(0.693/Math.log(15/Number(sampleActivity))*10000*4.3)
 }
 
 module.exports = {
