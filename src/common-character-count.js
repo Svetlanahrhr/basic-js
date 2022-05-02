@@ -14,21 +14,33 @@ const { NotImplementedError } = require('../extensions/index.js');
  function getCommonCharacterCount(s1, s2) {
   s1 = s1.split('')
   s2 = s2.split('')
-  let count = 1
+  let sum = 0
   let some1 = {}
   let some2 = {}
   let length1 = s1.length
   let length2 = s2.length
  for (let i=0; i<length1; i++) {
-   some1[s1.splice(s1[i],1)] = 1
-   console.log(some1);
+   if (!some1[`${s1[i]}`]) {
+     some1[`${s1[i]}`] = 1
+   } else {
+    some1[`${s1[i]}`]++
+   }
  }
  for (let j=0; j<length2; j++) {
-   some2[s2.splice(s2[j],1)] = 1
-   console.log(some2);
+  if (!some2[`${s2[j]}`]) {
+     some2[`${s2[j]}`] = 1
+   } else {
+    some2[`${s2[j]}`]++
+   }
  }
- return some2.length
-
+for (key1 in some1) {
+  if (some2[key1]) {
+    if (some1[key1] > some2[key1]) {
+      sum+=some2[key1]
+    } else sum+=some1[key1]
+  }
+}
+return sum
 }
 
 module.exports = {
