@@ -22,43 +22,41 @@ const { NotImplementedError } = require('../extensions/index.js');
  * }
  *
  */
- function getDNSStats( domains ) {
-  let dom ='';
-  let sum = {}
-  let reverseDom 
-
+ function getDNSStats(domains) {
+  if (domains.length === 0) {
+    return {}
+  }
+  let dom = "";
+  let sum = {};
 
   if (!domains) {
     return {};
   } else {
-      domains.forEach((el,ind) => {
-         dom += el.split('.')
-         if (ind !== domains.length -1) {
-          dom+=','
-         }
-         
-      });
-    console.log(typeof dom);
-  }
-  dom = dom.replace(' ', '')
-  console.log(dom);
-  dom = dom.split(',')
-  console.log(dom);  // ['epam', 'com', 'info', 'epam', 'com']
-  dom.forEach(l => {
-      if (!sum[l]) {
-          sum[l] = 1;
-      } else {
-          sum[l]++
+    domains.forEach((el, ind) => {
+      dom += el.split(".");
+      if (ind !== domains.length - 1) {
+        dom += ",";
       }
-  })
-console.log(dom.reverse());
-  dom.reverse().forEach((el,ind) => {
+    });
+  }
+  dom = dom.replace(" ", "");
+  dom = dom.split(",");
+  dom.reverse().forEach((l) => {
+    if (!sum[l]) {
+      sum[l] = 1;
+    } else {
+      sum[l]++;
+    }
+  });
+  const keys = Object.keys(sum); // com, epam
+  let answer = {};
+  let dos = "";
+  for (const key of keys) {
+    dos += "." + key;
+    answer[dos] = sum[key];
+  }
 
-  })
-  
-  console.log(sum); // {epam: 2, com: 2, info: 1}
-  
-  return sum;
+  return answer;
 }
 
 module.exports = {
