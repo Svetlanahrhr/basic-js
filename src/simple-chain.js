@@ -15,33 +15,35 @@ const chainMaker = {
     value = String(value);
 
     if (value) {
-      this.chain.push(` ${value} `);
+      this.chain.push(`( ${value} )`);
     } else {
-      this.chain.push("()");
+      this.chain.push("( )");
     }
     return this;
   },
 
   removeLink(position) {
-    if (isNaN(position) || !Number.isInteger(position) || position <= 0) {
+    if (typeof position === "number" && (position ^ 0) === position) {
+      if (position > this.chain.length || position < 1) {
+        this.chain = [];
+        throw new Error("You can't remove incorrect link!");
+      }
+      this.chain.splice(position - 1, 1);
+      return this;
+    }
+    if (isNaN(position) || !Number.isInteger(position) || position < 1) {
       this.chain = [];
       throw new Error("You can't remove incorrect link!");
     }
-
-    this.chain.splice(position - 1, 1);
-    return this;
   },
 
   reverseChain() {
     this.chain.reverse();
     return this;
-    // throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
   },
   finishChain() {
     let res = this.chain.join("~~");
     this.chain = [];
-    console.log(res);
     return res;
   },
 };
